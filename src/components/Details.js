@@ -6,6 +6,17 @@ export default function Details(props) {
   const { friendId, close } = props
   const [details, setDetails] = useState(null)
 
+  useEffect(()=>{
+    axios.get(`${BASE_URL}/friends/${friendId}?api_key=${API_KEY}`)
+        . then(res=>{
+          setDetails(res.data)
+        })
+        .catch(err=>{
+          console.error(err)
+        })
+
+  },[friendId])
+
   // 👉 TASK 4 - Create a side effect 🥇 that runs only after first render.
 
   // 👉 TASK 5 - Create a side effect 👻 that runs only after first render
@@ -27,7 +38,7 @@ export default function Details(props) {
         <>
           <p>{details.name} is {details.age}</p>
           <p>email is {details.email}</p>
-          {name} likes:
+          {details.name} likes:
           <ul>
             {details.hobbies.map((hobby) => <li key={hobby}>{hobby}</li>)}
           </ul>
